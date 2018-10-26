@@ -1,0 +1,15 @@
+QListView::item:selected {
+    background-color: lightblue;
+    color: black;
+}
+
+QListView::item {
+    border: 1px solid lightgray;
+    padding: 2px;
+}
+
+QListView {
+    font-size: 14pt;
+    font-style: italic;
+    font-family: Arial;
+}
