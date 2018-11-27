@@ -53,18 +53,19 @@ bool TodoListModel::setData(const QModelIndex& index, const QVariant& value, int
     if (index.isValid() && role == Qt::EditRole) {
         // SPECIAL TODO
         const string type = model.getTodo(index.row())->getType();
+        /* CON TODO IMMUTABILE serve sostituire l'intero Todo
         Todo* todo;
         if (type == "special")
             todo = new SpecialTodo(value.toString().toStdString());
         else
-            todo = new Todo(value.toString().toStdString());
+            todo = new Todo(value.toString().toStdString()); */
         // ~SPECIAL TODO
 
-        model.replace(index.row(), todo);
+        model.editTodo(index.row(), value.toString().toStdString());
         // la documentazione chiede di emettere il segnale esplicitamente
         emit dataChanged(index, index);
         return true;
-    } // ATTENZIONE che uno SpecialTodo viene sostituito con uno normale
+    }
     return false;
 }
 

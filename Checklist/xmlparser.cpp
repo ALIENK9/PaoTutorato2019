@@ -11,7 +11,7 @@
 #include <QListIterator>
 
 XmlParser::XmlParser(QString filename) : filename(filename) {}
-   // qDebug() << QFile::exists(QDir::currentPath().append("/../Checklist/data/data.xml"));
+   // qDebug() << QFile::exists(filename) << filename;
 
 QList<Todo*> XmlParser::read() const {
 
@@ -81,6 +81,8 @@ void XmlParser::write(QList<Todo*> list) const {
         writer.writeAttribute("type", QString::fromStdString(type)); // <todo type="...">
         writer.writeCharacters(QString::fromStdString(value)); // scrive il testo del todo
         writer.writeEndElement(); // </todo>
+        if (writer.hasError()) // esempio di eccezione. Ne andrebbe creata una personalizzata.
+            throw std::exception();
     }
     writer.writeEndElement(); // </root>
     writer.writeEndDocument(); // Closes all remaining open start elements and writes a newline.

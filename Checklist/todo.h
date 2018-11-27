@@ -14,6 +14,7 @@ public:
     virtual ~Todo() = default;
     virtual string getType() const;
     virtual string getValue() const;
+    void editValue(string);
 protected:
     string text;
 };

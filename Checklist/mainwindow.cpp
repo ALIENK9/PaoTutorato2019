@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     move(QApplication::desktop()->screen()->rect().center() - rect().center());
 
     setWindowTitle(tr("Todo App"));
+    setWindowIcon(QIcon(":/data/icon")); // icona del programma
 
     model = new Model(); // crea modello dati
     loadData();          // avvia la lettura da file e riempie il modello
@@ -82,12 +83,17 @@ void MainWindow::removeTodo() {
 }
 
 void MainWindow::saveData() {
-    model->saveToFile("data");
+    try {
+        model->saveToFile("data");
+    } catch (std::exception) {
+        QMessageBox box(QMessageBox::Critical, "Errore di salvataggio", "Non è stato possibile scrivere sul file", QMessageBox::Ok);
+        box.exec();
+    }
 }
 
 void MainWindow::loadData() {
     model->loadFromFile("data");
-    // Eventualmente per segnalare eccezioni basta mettere un "try catch"
+    // Eventualmente per segnalare eccezioni basta mettere un "try catch" (vedi save)
     // QMessageBox box(QMessageBox::Warning, "Nessun dato da caricare", "Non è stato possibile caricare una recedente lista di todo dal salvataggio", QMessageBox::Ok);
     // box.exec();
 }

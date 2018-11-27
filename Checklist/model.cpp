@@ -2,7 +2,7 @@
 #include "xmlparser.h"
 #include "todo.h"
 
-// #include <QDir> non serve con resources
+#include <QDir> // non serve con resources
 #include <QList>
 #include <QDebug>
 #include <QtAlgorithms> // per qDeleteAll
@@ -18,7 +18,6 @@ Model::~Model() {
     QListIterator<Todo*> it(list);
     while(it.hasNext()) {
         const Todo* todo = it.next();
-        qDebug() << "Destroyed " + QString::fromStdString(todo->getValue());
         delete todo;
     } */
 }
@@ -44,19 +43,32 @@ const Todo* Model::getTodo(int index) const {
     return nullptr;
 }
 
-// Sostituisce il Todo* in posizione "index" con newEl ed elimina quello vecchio
-void Model::replace(int index, Todo* newEl) {
+/* Sostituisce il Todo in posizione "index" della lista con "newTodo". Il Todo precedente viene distrutto
+ * con delete.
+ * Serve per sostituire un Todo con uno SpecialTodo e viceversa. Per la modifica del testo ho preferito
+ * aggiungere il metodo editTodo sotto. */
+void Model::replace(int index, Todo* newTodo) {
     if (index < list.size()) {
-        delete list[index];
-        qDebug() << "Deleted";
-        list[index] = newEl;
+        delete list.at(index);
+        qDebug() << "Deleted todo at " << index;
+        list[index] = newTodo;
     }
+    else // se l'indice non è valido (non dovrebbe accadere) bisogna pulire il Todo che non sarà aggiunto
+        delete newTodo;
+}
+
+/* Sostituisce il campo "text" del Todo in posizione "index" con "newText".
+ * Suppone che il Todo non sia immutabile */
+void Model::editTodo(int index, string newText) {
+    if (index < list.size()) {
+        list[index]->editValue(newText);
+    } // N.B: con todo immutabile serviva cancellare
 }
 
 // Metodo di salvataggio della lista nel file indicato
 void Model::saveToFile(string filename) const {
-    // XmlParser xmlParser(QDir::currentPath().append("/../MVC/data/" + QString::fromStdString(filename) + ".xml"));
-    XmlParser xmlParser(":/data/" + QString::fromStdString(filename));
+    // cosa più semplice è dargli path assoluto
+    XmlParser xmlParser("/home/alessandro/uni/tutorati/pao/PaoTutorato2019/Checklist/data/" + QString::fromStdString(filename) + ".xml");
     xmlParser.write(list);
 }
 

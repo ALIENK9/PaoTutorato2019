@@ -12,6 +12,10 @@ string Todo::getValue() const {
     return text;
 }
 
+void Todo::editValue(string val) {
+    text = val;
+}
+
 /* bool Todo::operator==(const Todo& todo) const {
     return text == todo.toString();
 }*/
