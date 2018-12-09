@@ -63,7 +63,7 @@ MainWindow::~MainWindow() {
     // XmlParser xmlParser(QDir::currentPath().append("/../MVC/data/data.xml"));
     // xmlParser.write(model->getList());
     delete model;
-    delete viewmodel;
+    // delete viewmodel;
 }
 
 void MainWindow::addTodo() {

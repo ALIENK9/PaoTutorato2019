@@ -112,4 +112,15 @@ bool TodoListModel::toggleType(const QModelIndex& index) {
         return QString("Lista");
 } */
 
+/* void TodoListModel::sort(int col, Qt::SortOrder order = Qt::AscendingOrder) {
+   - aggiungere operatore < fra Todo
+   - Aggiungere un metodo sort al modello Model che ordina la lista a seconda del parametro
+
+   QUI
+   - layoutAboutToBeChanged()
+   - ordinare il Model con sort()
+   - changePersistentIndexList()
+   - Emit the layoutChanged() signal.
+} */
+
 

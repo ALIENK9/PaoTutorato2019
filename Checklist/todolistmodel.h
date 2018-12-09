@@ -19,6 +19,8 @@ public:
     bool removeRow(int, const QModelIndex& = QModelIndex());
     // SPECIAL TODO: funzione per togglare il tipo (special o standard)
     bool toggleType(const QModelIndex&);
+
+    // void sort(int, Qt::SortOrder) override; ABOZZATO
 private:
     Model& model;
 };
