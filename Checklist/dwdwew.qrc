@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/ciao">
-        <file>Checklist.pro</file>
-    </qresource>
-</RCC>
