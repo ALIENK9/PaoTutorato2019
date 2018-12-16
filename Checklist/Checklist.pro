@@ -32,7 +32,8 @@ SOURCES += \
     model.cpp \
     specialtodo.cpp \
     xmlio.cpp \
-    listview.cpp
+    listview.cpp \
+    iocontroller.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
     model.h \
     specialtodo.h \
     xmlio.h \
-    listview.h
+    listview.h \
+    iocontroller.h
 
 FORMS +=
 

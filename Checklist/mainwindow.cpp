@@ -3,6 +3,7 @@
 #include "todo.h"
 #include "model.h"
 #include "listview.h"
+#include "iocontroller.h"
 
 // solo per centrare l'app
 #include <QDesktopWidget>
@@ -11,7 +12,6 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QDebug>
-#include <QMessageBox>
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     setWindowIcon(QIcon(":/data/icon")); // icona del programma
 
     model = new Model(); // crea modello dati
-    loadData();          // avvia la lettura da file e riempie il modello
+    controller = new IOController(*model);       // avvia la lettura da file e riempie il modello
+    loadData();
     viewmodel = new TodoListModel(*model, this); // crea un viewModel per usarlo con la view
     view = new ListView(this); // crea la view
     view->setModel(viewmodel); // fornisce il viewmodel alla view
@@ -77,6 +78,7 @@ MainWindow::~MainWindow() {
     // SALVATAGGIO NEL DISTRUTTORE
     // XmlParser xmlParser(QDir::currentPath().append("/../MVC/data/data.xml"));
     // xmlParser.write(model->getList());
+    delete controller;
     delete model;
     // delete viewmodel;
 }
@@ -98,19 +100,11 @@ void MainWindow::removeTodo() {
 }
 
 void MainWindow::saveData() {
-    try {
-        model->saveToFile("data");
-    } catch (std::exception) {
-        QMessageBox box(QMessageBox::Critical, "Errore di salvataggio", "Non è stato possibile scrivere sul file", QMessageBox::Ok);
-        box.exec();
-    }
+    controller->writeDataToFile();
 }
 
 void MainWindow::loadData() {
-    model->loadFromFile("data");
-    // Eventualmente per segnalare eccezioni basta mettere un "try catch" (vedi save)
-    // QMessageBox box(QMessageBox::Warning, "Nessun dato da caricare", "Non è stato possibile caricare una recedente lista di todo dal salvataggio", QMessageBox::Ok);
-    // box.exec();
+    controller->readDataFromFile();
 }
 
 // definisce la dimensione ideale per l'app

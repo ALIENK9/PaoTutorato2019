@@ -7,7 +7,7 @@ class TodoListModel; // definizioni incomplete
 class QListView;
 class QPushButton;
 class Model;
-
+class IOController;
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -17,6 +17,7 @@ public:
     ~MainWindow();
     QSize sizeHint() const;
 private:
+    IOController* controller;
     Model* model;
     TodoListModel* viewmodel;
     QListView* view;
