@@ -5,12 +5,12 @@
 
 class Todo;
 
-class XmlParser {
+class XmlIO {
 public:
-    XmlParser(QString);
+    XmlIO(QString);
 
     QList<Todo*> read() const;
-    void write(QList<Todo*>) const;
+    void write(const QList<Todo *> &) const;
 private:
     QString filename;
 };

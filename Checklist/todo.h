@@ -13,7 +13,7 @@ public:
     Todo(string = "");
     virtual ~Todo() = default;
     virtual string getType() const;
-    virtual string getValue() const;
+    virtual string getText() const;
     void editValue(string);
 protected:
     string text;

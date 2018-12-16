@@ -1,5 +1,5 @@
 #include "model.h"
-#include "xmlparser.h"
+#include "xmlio.h"
 #include "todo.h"
 
 #include <QDir> // non serve con resources
@@ -15,11 +15,19 @@ Model::~Model() {
     qDeleteAll(list);
 
     /*
+    for (QList<Todo*>::ConstIterator it = list.begin(); it != list.end(); it++) {
+        const Todo* todo = *it;
+        delete todo;
+    }
+    */
+
+    /*
     QListIterator<Todo*> it(list);
     while(it.hasNext()) {
         const Todo* todo = it.next();
         delete todo;
-    } */
+    }
+    */
 }
 
 int Model::getListSize() const {
@@ -68,12 +76,12 @@ void Model::editTodo(int index, string newText) {
 // Metodo di salvataggio della lista nel file indicato
 void Model::saveToFile(string filename) const {
     // cosa più semplice è dargli path assoluto
-    XmlParser xmlParser("/home/alessandro/uni/tutorati/pao/PaoTutorato2019/Checklist/data/" + QString::fromStdString(filename) + ".xml");
-    xmlParser.write(list);
+    XmlIO xmlIO("/home/alessandro/uni/tutorati/pao/PaoTutorato2019/Checklist/data/" + QString::fromStdString(filename) + ".xml");
+    xmlIO.write(list);
 }
 
 // Legge l'elenco di todo dal file con il nome indicato e sovrascrive la lista già esistente
 void Model::loadFromFile(string filename) {
-    XmlParser xmlParser(":/data/" + QString::fromStdString(filename));
-    list = xmlParser.read();
+    XmlIO xmlIO("/home/alessandro/uni/tutorati/pao/PaoTutorato2019/Checklist/data/" + QString::fromStdString(filename) + ".xml");
+    list = xmlIO.read();
 }

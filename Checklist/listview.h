@@ -3,9 +3,9 @@
 
 #include <QListView>
 
-class View : public QListView {
+class ListView : public QListView {
 public:
-    View(QWidget* = nullptr);
+    ListView(QWidget* = nullptr);
     QSize sizeHint() const override;
     void mousePressEvent(QMouseEvent*) override; // per pulire la selezione
 };

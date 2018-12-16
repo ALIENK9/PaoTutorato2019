@@ -26,7 +26,7 @@ public:
     void add(Todo*);
     void remove(int);
     void saveToFile(string) const; // scrittura su file
-    void loadFromFile(string);  // lettura da file
+    void loadFromFile(string);     // lettura da file
     void replace(int, Todo*);
     void editTodo(int, string);
 };

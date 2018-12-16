@@ -1,9 +1,8 @@
 #include "mainwindow.h"
-#include "xmlparser.h"
 #include "todolistmodel.h"
 #include "todo.h"
 #include "model.h"
-#include "view.h"
+#include "listview.h"
 
 // solo per centrare l'app
 #include <QDesktopWidget>
@@ -13,6 +12,9 @@
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 // #include <QListView> mettere per View normale
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     model = new Model(); // crea modello dati
     loadData();          // avvia la lettura da file e riempie il modello
     viewmodel = new TodoListModel(*model, this); // crea un viewModel per usarlo con la view
-    view = new View(this); // crea la view
+    view = new ListView(this); // crea la view
     view->setModel(viewmodel); // fornisce il viewmodel alla view
     // Spostata nella VIEW: view->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 
@@ -35,8 +37,19 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     removeButton = new QPushButton("Rimuovi", this);
     saveButton = new QPushButton("Salva", this);
 
+    // BARRA DEL MENÙ
+    QMenuBar* menuBar = new QMenuBar();
+    QMenu* menu = new QMenu("File", menuBar);
+    QAction* saveAction = new QAction("Save", menu);
+    QAction* exitAction = new QAction("Exit", menu);
+    // Assemblo menù
+    menuBar->addMenu(menu);
+    menu->addAction(saveAction);
+    menu->addAction(exitAction);
+
     // LAYOUT
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(menuBar);
     mainLayout->addWidget(view, 0, Qt::AlignCenter);
 
     QHBoxLayout* buttonsLayout = new QHBoxLayout();
@@ -50,6 +63,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     connect(saveButton, SIGNAL(clicked()), this, SLOT(saveData()));
     connect(addButton, SIGNAL(clicked()), this, SLOT(addTodo()));
     connect(removeButton, SIGNAL(clicked()), this, SLOT(removeTodo()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(saveData()));
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
     // PULSANTE SPECIAL TODO
     QPushButton* toggleButton = new QPushButton("Speciale", this);

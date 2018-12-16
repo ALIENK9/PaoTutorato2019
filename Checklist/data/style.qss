@@ -13,3 +13,7 @@ QListView {
     font-style: italic;
     font-family: Arial;
 }
+
+QMenuBar {
+    font-size: 13pt;
+}

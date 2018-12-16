@@ -8,7 +8,7 @@ string Todo::getType() const {
     return "standard";
 }
 
-string Todo::getValue() const {
+string Todo::getText() const {
     return text;
 }
 

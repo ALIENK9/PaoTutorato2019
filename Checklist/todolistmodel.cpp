@@ -23,7 +23,7 @@ QVariant TodoListModel::data(const QModelIndex& index, int role) const {
         return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        return QString::fromStdString(model.getTodo(index.row())->getValue());
+        return QString::fromStdString(model.getTodo(index.row())->getText());
     }
 
     // SPECIAL TODO: per cambiare colore della riga se è "special"
@@ -96,7 +96,7 @@ bool TodoListModel::toggleType(const QModelIndex& index) {
         return false;
     const Todo* todo = model.getTodo(index.row()); // recupera il Todo
     const string type = todo->getType(); // recupera il tipo del todo
-    const string value = todo->getValue(); // recupera il testo del todo
+    const string value = todo->getText(); // recupera il testo del todo
     Todo* newTodo = (type == "standard" ? new SpecialTodo(value) : new Todo(value));
     model.replace(index.row(), newTodo); // rimpiazza il nuovo todo a quello vecchio che viene eliminato
 

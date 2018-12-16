@@ -27,21 +27,21 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    xmlparser.cpp \
     todo.cpp \
     todolistmodel.cpp \
     model.cpp \
-    view.cpp \
-    specialtodo.cpp
+    specialtodo.cpp \
+    xmlio.cpp \
+    listview.cpp
 
 HEADERS += \
         mainwindow.h \
-    xmlparser.h \
     todo.h \
     todolistmodel.h \
     model.h \
-    view.h \
-    specialtodo.h
+    specialtodo.h \
+    xmlio.h \
+    listview.h
 
 FORMS +=
 

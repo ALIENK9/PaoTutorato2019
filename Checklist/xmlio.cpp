@@ -1,4 +1,4 @@
-#include "xmlparser.h"
+#include "xmlio.h"
 #include "todo.h"
 #include "specialtodo.h"
 
@@ -10,10 +10,10 @@
 #include <QList>
 #include <QListIterator>
 
-XmlParser::XmlParser(QString filename) : filename(filename) {}
+XmlIO::XmlIO(QString filename) : filename(filename) {}
    // qDebug() << QFile::exists(filename) << filename;
 
-QList<Todo*> XmlParser::read() const {
+QList<Todo*> XmlIO::read() const {
 
     QList<Todo*> list;
 
@@ -24,9 +24,9 @@ QList<Todo*> XmlParser::read() const {
     }
     // Elenco delle flag di apertura: http://doc.qt.io/qt-5/qiodevice.html#OpenModeFlag-enum
 
-    QXmlStreamReader reader(&file);
-    if(reader.readNextStartElement()) {
-        if(reader.name() == "root") {
+    QXmlStreamReader reader(&file); // QIODevice*
+    if(reader.readNextStartElement()) { // altrimenti la lista è vuota
+        if(reader.name() == "root") { // altrimenti skippa
             while(reader.readNextStartElement()) {
                 if(reader.name() == "todo") {
                     const QXmlStreamAttributes attributes = reader.attributes();
@@ -51,7 +51,7 @@ QList<Todo*> XmlParser::read() const {
     return list;
 }
 
-void XmlParser::write(QList<Todo*> list) const {
+void XmlIO::write(const QList<Todo *> &list) const {
 
     // QSaveFile rispetto a QFile è più adatto per effettuare scritture su disco. Gestisce meglio
     // i casi di errore, garantendo che non vengano persi i dati del file in caso di errori in scrittura
@@ -59,6 +59,7 @@ void XmlParser::write(QList<Todo*> list) const {
 
     if(!file.open(QIODevice::WriteOnly)) {
         qDebug() << "Cannot open file to write" << file.errorString();
+        throw std::exception();
     }
 
     QXmlStreamWriter writer(&file);
@@ -71,12 +72,14 @@ void XmlParser::write(QList<Todo*> list) const {
     writer.writeStartElement("root"); // <root>
 
     QListIterator<Todo*> i(list); // Java style iterator
+    // If an error occurs while writing to the underlying device, hasError() starts returning true
+    // and subsequent writes are ignored.
 
     while (i.hasNext()) {
         writer.writeStartElement("todo"); // <todo>
         const Todo* item = i.next();
         const string type = item->getType();
-        const string value = item->getValue();
+        const string value = item->getText();
         qDebug() << "Scrivendo" + QString::fromStdString(type);
         writer.writeAttribute("type", QString::fromStdString(type)); // <todo type="...">
         writer.writeCharacters(QString::fromStdString(value)); // scrive il testo del todo
