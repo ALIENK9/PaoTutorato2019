@@ -129,7 +129,7 @@ void MainWindow::toggleSpecialTodo() {
 }
 
 void MainWindow::textFilterChanged() {
-    QRegExp regexp(searchbar->text(), Qt::CaseInsensitive);
+    QRegExp regexp(searchbar->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
     proxymodel->setFilterRegExp(regexp);
 }
 
