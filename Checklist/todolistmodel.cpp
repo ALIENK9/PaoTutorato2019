@@ -3,15 +3,18 @@
 #include "todo.h"
 #include "specialtodo.h"
 
-#include <QDebug>
 #include <QFont> // per cambiare il font in "data()"
 
-TodoListModel::TodoListModel(Model& model, QObject *parent)
-    : QAbstractListModel(parent), model(model) {} // necessita di un ref al modello di dati
+TodoListModel::TodoListModel(QObject *parent)
+    : QAbstractListModel(parent), model(new Model()) {}
+
+TodoListModel::~TodoListModel() {
+    delete model;
+}
 
 // deve essere reimplementata per dire alla view quante righe costruire per rappresentare il modello
 int TodoListModel::rowCount(const QModelIndex& /*parent*/) const {
-    return model.getListSize();
+    return model->getListSize();
 }
 
 // dice alla view come mappare ogni riga (della view) al modello dei dati (ogni riga un Todo)
@@ -19,16 +22,16 @@ QVariant TodoListModel::data(const QModelIndex& index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= model.getListSize())
+    if (index.row() >= model->getListSize())
         return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        return QString::fromStdString(model.getTodo(index.row())->getText());
+        return QString::fromStdString(model->getTodo(index.row())->getText());
     }
 
     // SPECIAL TODO: per cambiare colore della riga se è "special"
     if (role == Qt::FontRole) {
-        const string type = model.getTodo(index.row())->getType();
+        const string type = model->getTodo(index.row())->getType();
         if (type == "special") {
             QFont font = QFont("Arial", 14, QFont::Bold);
             font.setCapitalization(QFont::AllUppercase);
@@ -52,7 +55,7 @@ Qt::ItemFlags TodoListModel::flags(const QModelIndex &index) const {
 bool TodoListModel::setData(const QModelIndex& index, const QVariant& value, int role) {
     if (index.isValid() && role == Qt::EditRole) {
         // SPECIAL TODO
-        const string type = model.getTodo(index.row())->getType();
+        const string type = model->getTodo(index.row())->getType();
         /* CON TODO IMMUTABILE serve sostituire l'intero Todo
         Todo* todo;
         if (type == "special")
@@ -61,7 +64,7 @@ bool TodoListModel::setData(const QModelIndex& index, const QVariant& value, int
             todo = new Todo(value.toString().toStdString()); */
         // ~SPECIAL TODO
 
-        model.editTodo(index.row(), value.toString().toStdString());
+        model->editTodo(index.row(), value.toString().toStdString());
         // la documentazione chiede di emettere il segnale esplicitamente
         emit dataChanged(index, index);
         return true;
@@ -69,23 +72,23 @@ bool TodoListModel::setData(const QModelIndex& index, const QVariant& value, int
     return false;
 }
 
-bool TodoListModel::removeRow(int position, const QModelIndex& parent) {
-    beginRemoveRows(parent, position, position);
-    model.remove(position);
+bool TodoListModel::removeRows(int begin, int count, const QModelIndex& parent) {
+    beginRemoveRows(parent, begin, begin + count - 1);
+    model->remove(begin); // nel nostro caso si rimuove una riga ovvero begin
     endRemoveRows();
     return true;
 }
 
 /**
  * @brief TodoListModel::insertRow. Aggiunge todo vuoti al modello
- * @param position: index where to insert first new row
- * @param rowsToAdd: number of rows to insert
+ * @param begin: index where to insert first new row
+ * @param count: number of rows to insert
  * @param parent
  * @return true if insertion was completed
  */
-bool TodoListModel::insertRow(int position, const QModelIndex& parent) {
-    beginInsertRows(parent, position, position); // parent, first row, last row
-    model.add(new Todo("Nuovo todo"));
+bool TodoListModel::insertRows(int begin, int count, const QModelIndex& parent) {
+    beginInsertRows(parent, begin, begin + count - 1); // parent, first row, last row
+    model->add(new Todo("Nuovo todo"));
     endInsertRows();
     return true;
 }
@@ -94,14 +97,22 @@ bool TodoListModel::insertRow(int position, const QModelIndex& parent) {
 bool TodoListModel::toggleType(const QModelIndex& index) {
     if (!index.isValid()) // se l'indice non è valido (es. nessun indice selezionato) non fa nulla
         return false;
-    const Todo* todo = model.getTodo(index.row()); // recupera il Todo
+    const Todo* todo = model->getTodo(index.row()); // recupera il Todo
     const string type = todo->getType(); // recupera il tipo del todo
     const string value = todo->getText(); // recupera il testo del todo
     Todo* newTodo = (type == "standard" ? new SpecialTodo(value) : new Todo(value));
-    model.replace(index.row(), newTodo); // rimpiazza il nuovo todo a quello vecchio che viene eliminato
+    model->replace(index.row(), newTodo); // rimpiazza il nuovo todo a quello vecchio che viene eliminato
 
     emit dataChanged(index, index); // segnale per avvisare la view del cambiamento (fonte: Doc di Qt)
     return true; // convenzionalmente Qt ritorna true quando l'operazione va a buon fine
+}
+
+void TodoListModel::readDataFromFile() {
+    model->loadFromFile("data");
+}
+
+void TodoListModel::writeDataToFile() {
+    model->saveToFile("data");
 }
 
 // inutile per i QAbstractListModel ma può servire per QAbstractTableModel

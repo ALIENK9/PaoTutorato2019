@@ -8,21 +8,25 @@ class Model;
 
 class TodoListModel : public QAbstractListModel {
 public:
-    TodoListModel(Model&, QObject* = nullptr);
+    TodoListModel(QObject* = nullptr);
+    ~TodoListModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     // EDITABLE
     Qt::ItemFlags flags(const QModelIndex&) const override;
     bool setData(const QModelIndex&, const QVariant&, int) override;
-    bool insertRow(int, const QModelIndex& = QModelIndex());
-    bool removeRow(int, const QModelIndex& = QModelIndex());
+    bool insertRows(int, int, const QModelIndex& = QModelIndex()) override;
+    bool removeRows(int, int, const QModelIndex& = QModelIndex()) override;
     // SPECIAL TODO: funzione per togglare il tipo (special o standard)
     bool toggleType(const QModelIndex&);
 
+    void readDataFromFile();
+    void writeDataToFile();
+
     // void sort(int, Qt::SortOrder) override; ABOZZATO
 private:
-    Model& model;
+    Model* model;
 };
 
 #endif // TODOLISTMODEL_H

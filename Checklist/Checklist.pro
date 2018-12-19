@@ -33,7 +33,7 @@ SOURCES += \
     specialtodo.cpp \
     xmlio.cpp \
     listview.cpp \
-    iocontroller.cpp
+    qfiltermodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +43,7 @@ HEADERS += \
     specialtodo.h \
     xmlio.h \
     listview.h \
-    iocontroller.h
+    qfiltermodel.h
 
 FORMS +=
 

@@ -19,7 +19,7 @@ QList<Todo*> XmlIO::read() const {
 
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)) { // se non esiste, "open" crea un nuovo file vuoto
-        qDebug() << "Cannot read file" << file.errorString();
+        qCritical() << "Cannot read file" << file.errorString();
         return list;
     }
     // Elenco delle flag di apertura: http://doc.qt.io/qt-5/qiodevice.html#OpenModeFlag-enum
