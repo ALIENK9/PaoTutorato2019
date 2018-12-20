@@ -41,10 +41,6 @@ QList<Todo*> XmlIO::read() const {
                     reader.skipCurrentElement();
             }
         }
-        else {
-            reader.skipCurrentElement();
-            reader.raiseError("Incorrect root tag"); // solo per debug
-        }
     }
 
     file.close();
