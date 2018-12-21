@@ -1,6 +1,6 @@
 #include "mainwindow.h"
-#include "todolistmodel.h"
-#include "qfiltermodel.h"
+#include "qlistmodel.h"
+#include "qfilterproxymodel.h"
 #include "listview.h"
 
 // solo per centrare l'app
@@ -18,8 +18,8 @@
 // #include <QListView> mettere per View normale
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
-    qtmodel(new TodoListModel(this)),
-    proxymodel(new QFilterModel(this)),
+    qtmodel(new QListModel(this)),
+    proxymodel(new QFilterProxyModel(this)),
     view(new ListView(this)),
     searchbar(new QLineEdit(this)) {
 
@@ -43,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
     // BARRA DEL MENÙ
     QMenuBar* menuBar = new QMenuBar();
     QMenu* menu = new QMenu("File", menuBar);
-    QAction* saveAction = new QAction("Save", menu);
-    QAction* exitAction = new QAction("Exit", menu);
+    QAction* saveAction = new QAction("Salva", menu);
+    QAction* exitAction = new QAction("Esci", menu);
     // Assemblo menù
     menuBar->addMenu(menu);
     menu->addAction(saveAction);
@@ -86,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
 //}
 
 void MainWindow::addTodo() {
-    const int rows = proxymodel->rowCount() - 1;
+    const int rows = proxymodel->rowCount();
     proxymodel->insertRows(rows, 1);
     // retrieve added item's QModelIndex
     const QModelIndex addedIndex = qtmodel->index(qtmodel->rowCount() - 1);

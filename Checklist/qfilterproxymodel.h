@@ -3,9 +3,9 @@
 
 #include <QSortFilterProxyModel>
 
-class QFilterModel : public QSortFilterProxyModel {
+class QFilterProxyModel : public QSortFilterProxyModel {
 public:
-    QFilterModel(QObject* = nullptr);
+    QFilterProxyModel(QObject* = nullptr);
     bool toggleType(const QModelIndex&);
     // bool removeRows(int, int, const QModelIndex& = QModelIndex()) override;
     bool insertRows(int, int, const QModelIndex& = QModelIndex()) override;

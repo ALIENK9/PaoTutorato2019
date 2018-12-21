@@ -3,11 +3,11 @@
 
 #include <QWidget>
 
-class TodoListModel; // definizioni incomplete
+class QListModel; // definizioni incomplete
 class QListView;
 class QPushButton;
 class QLineEdit;
-class QFilterModel;
+class QFilterProxyModel;
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -17,8 +17,8 @@ public:
     // ~MainWindow();
     QSize sizeHint() const;
 private:
-    TodoListModel* qtmodel;
-    QFilterModel* proxymodel;
+    QListModel* qtmodel;
+    QFilterProxyModel* proxymodel;
     QListView* view;
     QLineEdit* searchbar;
 

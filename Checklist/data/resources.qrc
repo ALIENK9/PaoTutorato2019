@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/data">
         <file alias="qss">style.qss</file>
-        <file alias="data">data.xml</file>
         <file alias="icon">icon.png</file>
     </qresource>
 </RCC>

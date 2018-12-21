@@ -6,10 +6,10 @@
 class Todo;
 class Model;
 
-class TodoListModel : public QAbstractListModel {
+class QListModel : public QAbstractListModel {
 public:
-    TodoListModel(QObject* = nullptr);
-    ~TodoListModel() override;
+    QListModel(QObject* = nullptr);
+    ~QListModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;

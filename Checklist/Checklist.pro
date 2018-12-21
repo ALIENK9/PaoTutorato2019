@@ -28,22 +28,22 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     todo.cpp \
-    todolistmodel.cpp \
     model.cpp \
     specialtodo.cpp \
     xmlio.cpp \
     listview.cpp \
-    qfiltermodel.cpp
+    qlistmodel.cpp \
+    qfilterproxymodel.cpp
 
 HEADERS += \
         mainwindow.h \
     todo.h \
-    todolistmodel.h \
     model.h \
     specialtodo.h \
     xmlio.h \
     listview.h \
-    qfiltermodel.h
+    qlistmodel.h \
+    qfilterproxymodel.h
 
 FORMS +=
 
