@@ -3,12 +3,12 @@
 <root>
     <todo type="standard">Fare il bucato</todo>
     <todo type="special">Andare a cavallo</todo>
-    <todo type="standard">Piangere su un cavallo</todo>
-    <todo type="standard">Pinocchio</todo>
-    <todo type="standard">pollo</todo>
-    <todo type="special">Cavalli</todo>
-    <todo type="standard">Pinguini</todo>
-    <todo type="standard">Minestrone fresco</todo>
+    <todo type="standard">Comprare delle arance</todo>
+    <todo type="standard">Pane per domani</todo>
+    <todo type="standard">Prenotare visita medica</todo>
+    <todo type="special">Pulire il cavallo</todo>
+    <todo type="standard">Pagare biglietto a Denis</todo>
+    <todo type="standard">Preparare la minestra</todo>
     <todo type="standard">Stendere la relazione</todo>
-    <todo type="special">Comprare la caciotta</todo>
+    <todo type="special">Prenotare la caciotta</todo>
 </root>

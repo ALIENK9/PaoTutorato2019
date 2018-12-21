@@ -47,7 +47,7 @@ QList<Todo*> XmlIO::read() const {
     return list;
 }
 
-void XmlIO::write(const QList<Todo *> &list) const {
+void XmlIO::write(const QList<Todo*>& list) const {
 
     // QSaveFile rispetto a QFile è più adatto per effettuare scritture su disco. Gestisce meglio
     // i casi di errore, garantendo che non vengano persi i dati del file in caso di errori in scrittura

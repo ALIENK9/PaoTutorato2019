@@ -23,6 +23,7 @@ public:
 
     int getListSize() const;
     const Todo* getTodo(int) const;
+    // const Todo* operator[](int) const;
     void add(Todo*);
     void remove(int);
     void saveToFile(string) const; // scrittura su file
