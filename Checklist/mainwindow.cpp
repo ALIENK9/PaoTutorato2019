@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
     QPushButton* addButton = new QPushButton("Aggiungi", this);
     QPushButton* removeButton = new QPushButton("Rimuovi", this);
     QPushButton* saveButton = new QPushButton("Salva", this);
+    QPushButton* clearSearchButton = new QPushButton("X", this);
+    clearSearchButton->setObjectName("clearsearch");
 
     // BARRA DEL MENÙ
     QMenuBar* menuBar = new QMenuBar();
@@ -53,7 +55,13 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
     // LAYOUT
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(menuBar);
-    mainLayout->addWidget(searchbar);
+
+    // Search sublayout
+    QHBoxLayout* searchLayout = new QHBoxLayout();
+    searchLayout->addWidget(searchbar);
+    searchLayout->addWidget(clearSearchButton);
+    mainLayout->addLayout(searchLayout);
+
     mainLayout->addWidget(view, 0, Qt::AlignCenter);
 
     QHBoxLayout* buttonsLayout = new QHBoxLayout();
@@ -73,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent),
     // RICERCA
     searchbar->setPlaceholderText("Ricerca");
     connect(searchbar, SIGNAL(textChanged(QString)), this, SLOT(textFilterChanged()));
+    connect(clearSearchButton, SIGNAL(clicked()), searchbar, SLOT(clear()));
 
     // PULSANTE SPECIAL TODO
     QPushButton* toggleButton = new QPushButton("Speciale", this);

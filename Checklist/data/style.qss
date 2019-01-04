@@ -1,25 +1,36 @@
-QListView::item:selected {
-    background-color: lightblue;
-    color: black;
-}
-
-QListView::item {
-    border: 1px solid lightgray;
-    padding: 2px;
-}
-
-QListView {
+QListView {                     /* Proprietà della QListView */
     font-size: 14pt;
     font-style: italic;
     font-family: Arial;
 }
 
-QMenuBar {
+QListView::item {               /* Elemento della lista */
+    border: 1px solid lightgray;
+    padding: 0.1em;
+}
+
+QListView::item:selected {      /* Elemento della lista selezionato */
+    background-color: lightblue;
+    color: black;
+}
+
+QMenuBar {                      /* Dimensione font barra del menù */
     font-size: 13pt;
 }
 
-QLineEdit {
+QLineEdit {                     /* Barra di ricerca */
     font-size: 13pt;
-    border: 1px solid black;
+    border: 0.5px solid gray;
     border-radius: 10px;
+    padding: 0.1em;
+}
+
+QLineEdit:focus {              /* Barra di ricerca quando selezionata */
+    border: 0.5px solid orange;
+}
+
+#clearsearch {                  /* Pulsante clear di searchbar */
+    padding: 0.1em;
+    width: 1.5em;
+    font-size: 13pt;
 }
