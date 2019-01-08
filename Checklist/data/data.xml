@@ -10,5 +10,7 @@
     <todo type="standard">Pagare biglietto a Denis</todo>
     <todo type="standard">Preparare la minestra</todo>
     <todo type="standard">Stendere la relazione</todo>
-    <todo type="special">Prenotare la caciotta</todo>
+    <todo type="standard">Prenotare la CACIOTTA</todo>
+    <todo type="standard">Mangiare</todo>
+    <todo type="standard">Try catch</todo>
 </root>
